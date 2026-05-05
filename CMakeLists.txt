@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project (3d-math-benchmark CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Google benchmark tests")
@@ -20,7 +20,7 @@ add_subdirectory(glm)
 add_subdirectory(eigen)
 add_subdirectory(mathfu)
 add_subdirectory(blaze)
-add_subdirectory(mango/build)
+add_subdirectory(mango)
 
 #Compiler specific options
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")

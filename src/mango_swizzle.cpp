@@ -3,18 +3,20 @@
 
 #include "prepare_test_data.h"
 
-inline mango::float32x4 test_swizzle_1(mango::float32x4 a, mango::float32x4 b, mango::float32x4 c) {
+using float32x4 = mango::math::float32x4;
+
+inline float32x4 test_swizzle_1(float32x4 a, float32x4 b, float32x4 c) {
     return a.wwww * b.xxyy + (c.xxzz - a).zzzz * b.w;
 }
 
-inline mango::float32x4 test_swizzle_2(mango::float32x4 a, mango::float32x4 b) {
+inline float32x4 test_swizzle_2(float32x4 a, float32x4 b) {
     return a.xyyz * b.wxxw + a * b.w;
 }
 
 static void vec4_test_swizzle(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(3);
+    const auto testData = prepare_test_data<float32x4>(3);
 
-    mango::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
+    float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -25,9 +27,9 @@ static void vec4_test_swizzle(benchmark::State& state) {
 }
 
 static void vec4_test_swizzle_2(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(2);
+    const auto testData = prepare_test_data<float32x4>(2);
 
-    mango::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
+    float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();

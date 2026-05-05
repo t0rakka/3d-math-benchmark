@@ -4,9 +4,9 @@
 #include <mango/mango.hpp>
 
 static void vec4_add(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
+    mango::math::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -17,9 +17,9 @@ static void vec4_add(benchmark::State& state) {
 }
 
 static void vec4_add_scalar(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
+    mango::math::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -30,9 +30,9 @@ static void vec4_add_scalar(benchmark::State& state) {
 }
 
 static void vec4_add_loop(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(0.0f);
+    mango::math::float32x4 res(0.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -45,9 +45,9 @@ static void vec4_add_loop(benchmark::State& state) {
 }
 
 static void vec4_add_loop_scalar(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(0.0f);
+    mango::math::float32x4 res(0.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -60,22 +60,22 @@ static void vec4_add_loop_scalar(benchmark::State& state) {
 }
 
 static void vec4_add_accumulate(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(0.0f);
+    mango::math::float32x4 res(0.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
-        res = std::accumulate(testData.begin(), testData.end(), mango::float32x4(0.0f));
+        res = std::accumulate(testData.begin(), testData.end(), mango::math::float32x4(0.0f));
         benchmark::ClobberMemory();
     }
     benchmark::DoNotOptimize(res);
 }
 
 static void vec4_mult(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
+    mango::math::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -86,9 +86,9 @@ static void vec4_mult(benchmark::State& state) {
 }
 
 static void vec4_mult_scalar(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
+    mango::math::float32x4 res(0.0f, 0.0f, 0.0f, 0.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -99,9 +99,9 @@ static void vec4_mult_scalar(benchmark::State& state) {
 }
 
 static void vec4_mult_loop(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(1.0f);
+    mango::math::float32x4 res(1.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -114,14 +114,14 @@ static void vec4_mult_loop(benchmark::State& state) {
 }
 
 static void vec4_mult_loop_scalar(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(1.0f);
+    mango::math::float32x4 res(1.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
         for (const auto& vec : testData) {
-            res *= vec.y;
+            res *= float(vec.y);
         }
         benchmark::ClobberMemory();
     }
@@ -129,16 +129,16 @@ static void vec4_mult_loop_scalar(benchmark::State& state) {
 }
 
 static void vec4_mult_accumulate(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(1.0f);
+    mango::math::float32x4 res(1.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
         res = std::accumulate(testData.begin(),
                               testData.end(),
-                              mango::float32x4(1.0f),
-                              [](mango::float32x4 lhs, mango::float32x4 rhs) {
+                              mango::math::float32x4(1.0f),
+                              [](mango::math::float32x4 lhs, mango::math::float32x4 rhs) {
             return lhs * rhs;
         });
         benchmark::ClobberMemory();
@@ -146,35 +146,35 @@ static void vec4_mult_accumulate(benchmark::State& state) {
     benchmark::DoNotOptimize(res);
 }
 
-mango::float32x4 compute_1(float a, float b)
+mango::math::float32x4 compute_1(float a, float b)
 {
 
-    mango::float32x4 const av(a, b, b, a);
-    mango::float32x4 const bv(a, b, a, b);
+    mango::math::float32x4 const av(a, b, b, a);
+    mango::math::float32x4 const bv(a, b, a, b);
 
-    mango::float32x4 const cv(bv * av);
-    mango::float32x4 const dv(av + cv);
+    mango::math::float32x4 const cv(bv * av);
+    mango::math::float32x4 const dv(av + cv);
 
     return dv;
 }
 
-mango::float32x4 compute_2(float a, float b)
+mango::math::float32x4 compute_2(float a, float b)
 {
-    mango::float32x4 const c(b * a);
-    mango::float32x4 const d(a + c);
+    mango::math::float32x4 const c(b * a);
+    mango::math::float32x4 const d(a + c);
 
     return d;
 }
 
-mango::float32x4 compute_3(mango::float32x4 a, mango::float32x4 b)
+mango::math::float32x4 compute_3(mango::math::float32x4 a, mango::math::float32x4 b)
 {
     return a * b + a * b;
 }
 
 static void vec4_compute_1(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(1.0f);
+    mango::math::float32x4 res(1.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -185,9 +185,9 @@ static void vec4_compute_1(benchmark::State& state) {
 }
 
 static void vec4_compute_2(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(1.0f);
+    mango::math::float32x4 res(1.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
@@ -198,9 +198,9 @@ static void vec4_compute_2(benchmark::State& state) {
 }
 
 static void vec4_compute_3(benchmark::State& state) {
-    const auto testData = prepare_test_data<mango::float32x4>(state.range(0));
+    const auto testData = prepare_test_data<mango::math::float32x4>(state.range(0));
 
-    mango::float32x4 res(1.0f);
+    mango::math::float32x4 res(1.0f);
 
     for (auto _ : state) {
         benchmark::ClobberMemory();
